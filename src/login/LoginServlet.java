@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -27,6 +30,7 @@ public class LoginServlet extends HttpServlet {
 		dispatch = request.getRequestDispatcher("Login.jsp");
 		dispatch.forward(request, response);
 	}
+
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,10 +50,20 @@ public class LoginServlet extends HttpServlet {
 				userName = rs.getString("user_name");
 			}
 
-
+			List<User> userList = new ArrayList<User>(); // 追加
 			RequestDispatcher dispatch = null;
 			if(userName != null) {
+				// 追加
+				ps = con.prepareStatement("select user_id, user_name, password from user");
+				rs = ps.executeQuery();
+
+				while(rs.next()) {
+					User user = new User(rs.getString("user_id"), rs.getString("user_name"), rs.getString("password"));
+					userList.add(user);
+				}
+
 				dispatch = request.getRequestDispatcher("LoginOK.jsp");
+				request.setAttribute("userList", userList);
 				dispatch.forward(request, response);
 			} else {
 				dispatch = request.getRequestDispatcher("LoginNG.jsp");
