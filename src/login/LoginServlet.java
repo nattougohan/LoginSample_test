@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
 	private ResultSet rs = null;
 	private PreparedStatement ps = null;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatch = null;
 		dispatch = request.getRequestDispatcher("Login.jsp");
@@ -33,6 +34,7 @@ public class LoginServlet extends HttpServlet {
 
 
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("user_id");
 		String password = request.getParameter("password");
