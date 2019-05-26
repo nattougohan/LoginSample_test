@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionFactory {
+public final class ConnectionFactory {
 
 	static Connection createConnection() throws SQLException{
 		try {

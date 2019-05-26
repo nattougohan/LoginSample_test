@@ -5,6 +5,12 @@ public class User {
 	private String user_name;
 	private String password;
 
+	public User(String user_name, String password) {
+		this.user_name = user_name;
+		this.password = password;
+	}
+
+
 	public User(String user_id, String user_name, String password) {
 		this.user_id = user_id;
 		this.user_name = user_name;

@@ -1,18 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="login.User, java.util.List" %>
+<%@ page import="model.User, java.util.List, java.util.ArrayList" %>
 <%
-List<User> userList = (List<User>) request.getAttribute("userList");
+User loginInformation = (User) session.getAttribute("loginInformation");
+List<User> userList = (List<User>) session.getAttribute("userList");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ログイン成功</title>
+<title>利用者管理システム</title>
 <link rel="stylesheet" href="/LoginSample/CSS/style.css">
 </head>
 <body>
-	ログインに成功しました！<br />
+	<h1>利用者一覧</h1>
+	<p><%= loginInformation.getUser_name() %>さん、ようこそ</p>
 	<table>
 		<tr>
 			<th>ID</th>
@@ -21,17 +23,24 @@ List<User> userList = (List<User>) request.getAttribute("userList");
 			<th>処理</th>
 		</tr>
 		<tr>
-			<th><form><input type="text" name="user_id"></form></th>
-			<th><form><input type="text" name="user_name"></form></th>
-			<th><form><input type="password" name="password"></form></th>
-			<th><form><input type="submit" value="登録"></form></th>
+			<form method="POST" action="UserManageServlet">
+				<td><input name="user_id" type="text" /></td>
+				<td><input name="user_name" type="text" /></td>
+				<td><input name="password" type="password" /></td>
+				<td><input name="crud" type="submit" value="登録" /></td>
+			</form>
 		</tr>
 		<% for(User user : userList) {  %>
 		<tr>
-			<td><%= user.getUser_id() %></td>
-			<td><%= user.getUser_name() %></td>
-			<td><%= user.getPassword() %></td>
-			<td><form><input type="submit" value="更新"><input type="submit" value="削除"></form></td>
+			<form method="POST" action="UserManageServlet">
+				<td><input name="user_id" type="text" value="<%= user.getUser_id() %>" /></td>
+				<td><input name="user_name" type="text" value="<%= user.getUser_name() %>" /></td>
+				<td><input name="password" type="password" value="<%= user.getPassword() %>" /></td>
+				<td>
+					<input name="crud" type="submit" value="更新" />
+					<input name="crud" type="submit" value="削除" />
+				</td>
+			</form>
 		</tr>
 		<% } %>
 	</table>

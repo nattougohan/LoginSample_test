@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
 
 	    	con = ConnectionFactory.createConnection();
 	        ps = con.prepareStatement("SELECT * FROM user "
-	        		+ "WHERE user_name = ? AND password = ?");
+	        							+ "WHERE user_name = ? AND password = ?");
             ps.setString(1, loginInfomation.getUser_name());
             ps.setString(2, loginInfomation.getPassword());
 	        rs = ps.executeQuery();
@@ -83,11 +83,11 @@ public class UserDaoImpl implements UserDao {
 
 			con = ConnectionFactory.createConnection();
 			ps = con.prepareStatement(
-					"INSERT INTO user(user_id, user_name, password)"
+					"INSERT INTO user(user_id, user_name, password) "
 					+ "values(?, ?, ?)");
-			ps.setString(1,"user_id");
-			ps.setString(2,"user_name");
-			ps.setString(3,"password");
+			ps.setString(1, user.getUser_id());
+			ps.setString(2, user.getUser_name());
+			ps.setString(3, user.getPassword());
 			ps.executeUpdate();
 
 		} catch(SQLException e) {
@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao {
 			con = ConnectionFactory.createConnection();
 			ps = con.prepareStatement("DELETE FROM user "
 					+ "WHERE user_id = ?");
-			ps.setString(1, "user_id");
+			ps.setString(1, user.getUser_id());
 			ps.executeUpdate();
 
 
@@ -130,13 +130,13 @@ public class UserDaoImpl implements UserDao {
 			ps.setString(1, user.getUser_name());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getUser_id());
+			ps.executeUpdate();
+
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException(errorMassage);
 		}
 
 	}
-
-
 
 }
