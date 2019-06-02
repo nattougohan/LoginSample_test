@@ -18,15 +18,13 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getLoginUser(User loginInfomation) {
+		Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
 	    try {
-
-	        Connection con = null;
-	        ResultSet rs = null;
-	        PreparedStatement ps = null;
-
 	    	con = ConnectionFactory.createConnection();
 	        ps = con.prepareStatement("SELECT * FROM user "
-	        							+ "WHERE user_name = ? AND password = ?");
+	        						+ "WHERE user_name = ? AND password = ?");
             ps.setString(1, loginInfomation.getUser_name());
             ps.setString(2, loginInfomation.getPassword());
 	        rs = ps.executeQuery();
@@ -45,17 +43,31 @@ public class UserDaoImpl implements UserDao {
 	    	e.printStackTrace();
 	    	throw new IllegalStateException(errorMassage);
 
-	    }
+	    } finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public List<User> getAllUser() {
 		List<User> userList = new ArrayList<User>();
-	    try {
-	        Connection con = null;
-	        ResultSet rs = null;
-	        PreparedStatement ps = null;
+		Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
 
+	    try {
 	    	con = ConnectionFactory.createConnection();
 	        ps = con.prepareStatement("SELECT * FROM user ");
 	        rs = ps.executeQuery();
@@ -63,24 +75,36 @@ public class UserDaoImpl implements UserDao {
 	        	User user = new User(rs.getString("user_id") , rs.getString("user_name") ,
 	        			rs.getString("password"));
 	            userList.add(user);
-
 	        }
-
 	        return userList;
 
 	    } catch(SQLException e) {
 	        e.printStackTrace();
 	    	throw new IllegalStateException(errorMassage);
 
-	    }
+	    } finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void createUser(User user) {
-		try {
-			Connection con = null;
-			PreparedStatement ps = null;
+		Connection con = null;
+		PreparedStatement ps = null;
 
+		try {
 			con = ConnectionFactory.createConnection();
 			ps = con.prepareStatement(
 					"INSERT INTO user(user_id, user_name, password) "
@@ -89,39 +113,59 @@ public class UserDaoImpl implements UserDao {
 			ps.setString(2, user.getUser_name());
 			ps.setString(3, user.getPassword());
 			ps.executeUpdate();
-
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException(errorMassage);
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Override
 	public void deleteUser(User user) {
+		Connection con = null;
+		PreparedStatement ps = null;
 		try {
-			Connection con = null;
-			PreparedStatement ps = null;
-
 			con = ConnectionFactory.createConnection();
 			ps = con.prepareStatement("DELETE FROM user "
 					+ "WHERE user_id = ?");
 			ps.setString(1, user.getUser_id());
 			ps.executeUpdate();
-
-
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException(errorMassage);
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 	}
 
 	@Override
 	public void updateUser(User user) {
+		// rootの名前は更新させない。パスワード
+		Connection con = null;
+		PreparedStatement ps = null;
 		try {
-			Connection con = null;
-			PreparedStatement ps = null;
-
 			con = ConnectionFactory.createConnection();
 			ps = con.prepareStatement("UPDATE user SET "
 										+ "user_name = ?, "
@@ -135,6 +179,19 @@ public class UserDaoImpl implements UserDao {
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException(errorMassage);
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 	}

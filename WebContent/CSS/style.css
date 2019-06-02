@@ -9,3 +9,19 @@ table, th, td{
 th{
 	background-color: #ffff42;
 }
+
+p.msg{
+	color: #ff0000;
+}
+
+td#id{
+	width:100;
+}
+
+td#name{
+	width:300;
+}
+
+td#pass{
+	width:200;
+}
