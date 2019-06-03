@@ -86,20 +86,24 @@ public class UserManageServlet extends HttpServlet {
 					break;
 				}
 			case "更新":
-				// rootの名前は変更NG。パスワードは変更可。まずはユーザーID＝1かどうかを判定
+				// ユーザーID＝1のrootの名前は変更NG。パスワードは変更可。まずはユーザーID＝1かどうかを判定
 				if ("1".equals(user.getUser_id())) {
 					// rootの名前が変わっているかを判定し、変わっていたら変更NG
 					if (!("root".equals(user.getUser_name()))) {
 						resultMsg = "そのユーザー名は変更できません";
 						request.setAttribute("resultMsg", resultMsg);
 						break;
-					// パスワードの変更はOK
+					// パスワードだけの変更はOK
 					} else {
+						resultMsg = "ユーザー情報を更新しました";
+						request.setAttribute("resultMsg", resultMsg);
 						dao.updateUser(user);
 						break;
 					}
 				// ユーザーID＝1以外のユーザの変更はOK
 				} else {
+					resultMsg = "ユーザー情報を更新しました";
+					request.setAttribute("resultMsg", resultMsg);
 					dao.updateUser(user);
 					break;
 				}
@@ -109,6 +113,7 @@ public class UserManageServlet extends HttpServlet {
 					resultMsg = "このユーザーは削除できません";
 					request.setAttribute("resultMsg", resultMsg);
 					break;
+				// ユーザーID＝1以外のユーザの削除はOK
 				} else {
 					resultMsg = "ユーザーを削除しました";
 					request.setAttribute("resultMsg", resultMsg);
