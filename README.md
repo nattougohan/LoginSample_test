@@ -1,5 +1,5 @@
 # LoginSample_test
-Javaシステム勉強会2
+Javaシステム勉強会
 
 ユーザーID："1"
 ユーザー名："root"
