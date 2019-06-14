@@ -32,6 +32,11 @@ public interface UserDao {
 	 */
 	void updateUser(User user);
 
+	/**
+	 * 利用者情報登録時の重複チェック
+	 */
+	int countDuplicateUserId(User user);
+
 
 
 }

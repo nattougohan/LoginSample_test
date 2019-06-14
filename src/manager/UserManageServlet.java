@@ -74,11 +74,20 @@ public class UserManageServlet extends HttpServlet {
 						break;
 					// それ以外は登録OK
 					} else {
-						// 1やrootでない場合、ユーザーの登録が成功したメッセージを表示してユーザーを登録する
-						resultMsg = "新規ユーザーを登録しました　＞　" + user.getUser_name();
-						request.setAttribute("resultMsg", resultMsg);
-						dao.createUser(user);
-						break;
+						/*
+						 * 登録しようとしているユーザーIDと同じIDの重複チェックをする
+						 * 重複がなければ登録可
+						 */
+						if (dao.countDuplicateUserId(user) == 0) {
+							resultMsg = "新規ユーザーを登録しました　＞　" + user.getUser_name();
+							request.setAttribute("resultMsg", resultMsg);
+							dao.createUser(user);
+							break;
+						} else {
+							resultMsg = "そのIDはすでに使用されています";
+							request.setAttribute("resultMsg", resultMsg);
+							break;
+						}
 					}
 				} else {
 					resultMsg = "ユーザーID、ユーザー名、パスワードは必ず入力してください";

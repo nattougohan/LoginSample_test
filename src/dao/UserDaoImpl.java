@@ -196,4 +196,44 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	@Override
+	public int countDuplicateUserId(User user) {
+		int countDuplicateCheck = 0;
+		Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+	    	con = ConnectionFactory.createConnection();
+	        ps = con.prepareStatement("SELECT COUNT(*) FROM user "
+	        							+ "WHERE user_id = ?");
+	        ps.setString(1, user.getUser_id());
+	        rs = ps.executeQuery();
+	        if(rs.next()){
+	        	countDuplicateCheck = rs.getInt(1);
+	        }
+
+	        return countDuplicateCheck;
+
+	    } catch(SQLException e) {
+	        e.printStackTrace();
+	    	throw new IllegalStateException(errorMassage);
+
+	    } finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+				if(rs != null) {
+					rs.close();
+				}
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
