@@ -37,6 +37,4 @@ public interface UserDao {
 	 */
 	int countDuplicateUserId(User user);
 
-
-
 }

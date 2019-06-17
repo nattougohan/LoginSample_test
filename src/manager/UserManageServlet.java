@@ -77,6 +77,7 @@ public class UserManageServlet extends HttpServlet {
 						/*
 						 * 登録しようとしているユーザーIDと同じIDの重複チェックをする
 						 * 重複がなければ登録可
+						 *
 						 */
 						if (dao.countDuplicateUserId(user) == 0) {
 							resultMsg = "新規ユーザーを登録しました　＞　" + user.getUser_name();
